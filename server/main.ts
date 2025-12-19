@@ -9,6 +9,7 @@ import * as insightsTable from "$tables/insights.ts";
 import createInsight from "./operations/create-insight.ts";
 import deleteInsight from "./operations/delete-insight.ts";
 import { InsertInsightSchema } from "$models/insight.ts";
+import { oakCors } from "jsr:@tajpouria/cors";
 
 console.log("Loading configuration");
 
@@ -80,6 +81,10 @@ router.delete("/insights/delete", async (ctx) => {
 });
 
 const app = new oak.Application();
+
+app.use(oakCors({
+  origin: "http://localhost:3000",
+}));
 
 app.use(router.routes());
 app.use(router.allowedMethods());
