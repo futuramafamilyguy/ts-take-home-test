@@ -8,9 +8,7 @@ export const App = () => {
   const [insights, setInsights] = useState<Insight[]>([]);
 
   useEffect(() => {
-    fetch(`http://localhost:8080/insights`).then((res) =>
-      res.json().then(setInsights)
-    );
+    fetch(`/api/insights`).then((res) => res.json().then(setInsights));
   }, []);
   console.log(insights);
 

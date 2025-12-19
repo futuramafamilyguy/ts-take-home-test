@@ -15,6 +15,8 @@ console.log("Loading configuration");
 
 const env = {
   port: Port.parse(Deno.env.get("SERVER_PORT")),
+  clientBaseUrl: String(Deno.env.get("SERVER_BASE_URL")),
+  clientPort: Port.parse(Deno.env.get("CLIENT_PORT")),
 };
 
 const dbFilePath = path.resolve("tmp", "db.sqlite3");
@@ -69,7 +71,7 @@ router.post("/insights/create", async (ctx) => {
   ctx.response.status = 201;
 });
 
-router.delete("/insights/delete", async (ctx) => {
+router.post("/insights/delete", async (ctx) => {
   const body = await ctx.request.body.json();
   const result = deleteInsight({
     db,
@@ -83,7 +85,9 @@ router.delete("/insights/delete", async (ctx) => {
 const app = new oak.Application();
 
 app.use(oakCors({
-  origin: "http://localhost:3000",
+  origin: `${env.clientBaseUrl}:${env.clientPort}`,
+  methods: ["GET", "POST", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type"],
 }));
 
 app.use(router.routes());

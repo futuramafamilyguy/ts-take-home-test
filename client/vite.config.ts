@@ -10,6 +10,8 @@ const env = {
   serverPort: Port.parse(Deno.env.get("SERVER_PORT")),
 };
 
+console.log("Proxy target:", `${env.servereBaseUrl}:${env.serverPort}`);
+
 export default defineConfig({
   root: "./src",
   build: {

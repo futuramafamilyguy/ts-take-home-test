@@ -13,8 +13,8 @@ export const Insights = ({ insights, className }: InsightsProps) => {
     if (!confirm("Are you sure you want to delete this insight?")) return;
 
     try {
-      const response = await fetch("http://localhost:8080/insights/delete", {
-        method: "DELETE",
+      const response = await fetch("/api/insights/delete", {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id }),
       });
