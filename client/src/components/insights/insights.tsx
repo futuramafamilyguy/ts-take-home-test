@@ -9,7 +9,28 @@ type InsightsProps = {
 };
 
 export const Insights = ({ insights, className }: InsightsProps) => {
-  const deleteInsight = () => undefined;
+  const deleteInsight = async (id: number) => {
+    if (!confirm("Are you sure you want to delete this insight?")) return;
+
+    try {
+      const response = await fetch("http://localhost:8080/insights/delete", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+
+      if (response.ok) {
+        window.location.reload();
+      } else {
+        const error = await response.json();
+        console.error("Failed to delete insight:", error);
+        alert("Failed to delete insight");
+      }
+    } catch (error) {
+      console.error("Error deleting insight:", error);
+      alert("Error deleting insight");
+    }
+  };
 
   return (
     <div className={cx(className)}>
@@ -24,7 +45,7 @@ export const Insights = ({ insights, className }: InsightsProps) => {
                   <span>{createdAt.toString()}</span>
                   <Trash2Icon
                     className={styles["insight-delete"]}
-                    onClick={deleteInsight}
+                    onClick={() => deleteInsight(id)}
                   />
                 </div>
               </div>
