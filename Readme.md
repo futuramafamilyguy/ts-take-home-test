@@ -1,3 +1,7 @@
+<p align="center">
+   <img height="250" src="./get-well-soon-chuggs.jpg">
+</p>
+
 # Take-Home Test (TypeScript)
 
 This is a template for a take-home test. See the [Instructions][Instructions]
