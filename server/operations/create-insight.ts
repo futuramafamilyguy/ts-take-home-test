@@ -17,8 +17,8 @@ export default (input: Input): Insight => {
     createdAt: createdAt.toISOString(),
     text,
   };
-  db.exec(
-    insightsTable.insertStatement(insert),
+  db.prepare(insightsTable.insertStatement).run(
+    ...insightsTable.insertValues(insert),
   );
   console.log(`Insight created successfully`);
 
