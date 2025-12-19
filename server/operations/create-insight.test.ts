@@ -29,5 +29,14 @@ describe("creating insight", () => {
         text: "New insight",
       });
     });
+
+    it("returns correct insight", () => {
+      expect(result).toEqual({
+        id: expect.any(Number),
+        brand: 0,
+        createdAt: currentTime.toISOString(),
+        text: "New insight",
+      });
+    });
   });
 });
