@@ -6,6 +6,7 @@ import { Port } from "../lib/utils/index.ts";
 import listInsights from "./operations/list-insights.ts";
 import lookupInsight from "./operations/lookup-insight.ts";
 import * as insightsTable from "$tables/insights.ts";
+import createInsight from "./operations/create-insight.ts";
 
 console.log("Loading configuration");
 
@@ -33,7 +34,7 @@ router.get("/_health", (ctx) => {
 router.get("/insights", (ctx) => {
   const result = listInsights({ db });
   ctx.response.body = result;
-  ctx.response.body = 200;
+  ctx.response.status = 200;
 });
 
 router.get("/insights/:id", (ctx) => {
@@ -43,8 +44,16 @@ router.get("/insights/:id", (ctx) => {
   ctx.response.status = 200;
 });
 
-router.get("/insights/create", (ctx) => {
-  // TODO
+router.post("/insights/create", async (ctx) => {
+  const body = await ctx.request.body.json();
+  const result = createInsight({
+    db,
+    brand: body.brand,
+    text: body.text,
+  });
+
+  ctx.response.body = result;
+  ctx.response.status = 201;
 });
 
 router.get("/insights/delete", (ctx) => {
