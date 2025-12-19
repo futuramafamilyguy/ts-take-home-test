@@ -17,12 +17,12 @@ export default (input: Input): Insight => {
     createdAt: createdAt.toISOString(),
     text,
   };
-  db.prepare(insightsTable.insertStatement).run(
+  const result = db.prepare(insightsTable.insertStatement).get(
     ...insightsTable.insertValues(insert),
-  );
+  ) as { id: number };
   console.log(`Insight created successfully`);
 
-  const id = db.lastInsertRowId;
+  const id = result.id;
   return {
     id,
     brand,

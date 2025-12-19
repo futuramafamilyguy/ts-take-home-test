@@ -21,7 +21,7 @@ export type Insert = {
 };
 
 export const insertStatement =
-  `INSERT INTO insights (brand, createdAt, text) VALUES (?, ?, ?)`;
+  `INSERT INTO insights (brand, createdAt, text) VALUES (?, ?, ?) RETURNING id`;
 
 export const insertValues = (
   item: Insert,
