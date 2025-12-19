@@ -8,6 +8,7 @@ import lookupInsight from "./operations/lookup-insight.ts";
 import * as insightsTable from "$tables/insights.ts";
 import createInsight from "./operations/create-insight.ts";
 import deleteInsight from "./operations/delete-insight.ts";
+import { InsertInsightSchema } from "$models/insight.ts";
 
 console.log("Loading configuration");
 
@@ -47,12 +48,22 @@ router.get("/insights/:id", (ctx) => {
 
 router.post("/insights/create", async (ctx) => {
   const body = await ctx.request.body.json();
+
+  const validation = InsertInsightSchema.safeParse(body);
+  if (!validation.success) {
+    ctx.response.body = {
+      error: "Invalid request body",
+      details: validation.error.errors,
+    };
+    ctx.response.status = 400;
+    return;
+  }
+
   const result = createInsight({
     db,
-    brand: body.brand,
-    text: body.text,
+    brand: validation.data.brand,
+    text: validation.data.text,
   });
-
   ctx.response.body = result;
   ctx.response.status = 201;
 });
