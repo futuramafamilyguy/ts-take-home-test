@@ -34,7 +34,7 @@ describe("creating insight", () => {
       expect(result).toEqual({
         id: expect.any(Number),
         brand: 0,
-        createdAt: currentTime.toISOString(),
+        createdAt: currentTime,
         text: "New insight",
       });
     });
